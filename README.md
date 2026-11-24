@@ -29,8 +29,6 @@ The work involved more than 15,000 agent runs.
 - `slides/deck_preview.html`: open in a browser to view the slides
 - `slides/project/`: slide source (HTML/CSS)
 
-Online slides: https://claude.ai/artifact/66httDRoDhZoFb8V2633S3 (private; access is shared on request)
-
 ## Rebuild
 ```
 cd figs && python make_figs_v2.py
