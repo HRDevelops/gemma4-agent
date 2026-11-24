@@ -1,0 +1,16 @@
+<section id="rq4why" style="justify-content:space-between">
+<div class="hd">
+<p class="lab">RQ4 · Trace analysis</p>
+<h2>What separates solved from failed runs of the same task</h2>
+</div>
+<div class="row">
+<img src="/_blob/04b91b5eb7b6e1f05c51932416e918a9" alt="Manual audit of 30 failed runs by cause; missed final verification and edit-tool loops highlighted as process failures" style="width:952px;height:560px;object-fit:contain">
+<div class="col">
+<div class="fact"><p class="num o">88% vs 47%</p><p>solved vs failed runs with a behaviour check after the last edit (d = +0.89).</p></div>
+<div class="fact"><p class="num ">8%</p><p>of runs ended with pytest, though 94 of 134 pytest calls worked.</p></div>
+<div class="fact"><p class="num ">0.53 vs 0.50</p><p>'reproduce first' within task: a between-task correlation, not a cause.</p></div>
+</div>
+</div>
+<div class="foot"><span>708 Patchsmith runs, 29 tasks solved by some seeds and not others</span><span class="pg"></span></div>
+<aside>Fourth: agent design. I took the strongest public workflow, Patchsmith, and analysed 708 of its runs. The key trick is a within-task comparison: on tasks solved by some seeds and failed by others, which behaviours differ? A behaviour check after the last edit separates them strongly. Pytest worked but was rarely used, because the prompt claimed it might be disabled. And the popular advice to reproduce first turns out to be confounded by task difficulty.</aside>
+</section>

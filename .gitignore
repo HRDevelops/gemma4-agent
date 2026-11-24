@@ -1,0 +1,7 @@
+*.aux
+*.log
+*.out
+*.blg
+*.synctex.gz
+main_v1_backup.tex
+slides/build_deck.py

@@ -1,0 +1,29 @@
+<section id="lessons" style="justify-content:space-between">
+<div class="hd">
+<p class="lab">Discussion</p>
+<h2>Levers that tied or lost against their matched baseline</h2>
+</div>
+<div class="two" style="gap:64px">
+<table>
+<tr><th style="width:72%">Change</th><th style="width:28%">Δ tasks</th></tr>
+<tr><td>5 short runs + selector vs 1 long run</td><td>−1.1</td></tr>
+<tr><td>31B LoRA, self-training</td><td>−2.7</td></tr>
+<tr><td>31B LoRA, Qwen teacher</td><td>−22.7</td></tr>
+<tr><td>E4B LoRA from 31B</td><td>−8.7</td></tr>
+<tr><td>3 parallel solvers + selector</td><td>±0, 4 × slower</td></tr>
+<tr><td>Skill scripts (search, test finder)</td><td>−1.7</td></tr>
+</table>
+<table>
+<tr><th style="width:72%">Change</th><th style="width:28%">Δ tasks</th></tr>
+<tr><td>Temperature 1.0</td><td>+0.3</td></tr>
+<tr><td>Frequency penalty 0.2</td><td>−3.0</td></tr>
+<tr><td>Thinking budget 2,048</td><td>−1.0</td></tr>
+<tr><td>Thinking budget 8,192 (on PS-check)</td><td>−3.0</td></tr>
+<tr><td>Reviewer agent (on PS-check)</td><td>−4.0</td></tr>
+<tr><td>Spec-coverage step (on PS-check)</td><td>−1.0</td></tr>
+</table>
+</div>
+<p class="mute" style="width:1300px">What helped acts on one failure mode: wasted and unverified runs. More samples, more thinking and new weights did not.</p>
+<div class="foot"><span>3 seeds each, paired against the matched baseline</span><span class="pg"></span></div>
+<aside>Putting it together. Many popular ideas tied or lost when tested properly: sampling with test-free selection, all three LoRA recipes, parallel solvers, sampling tweaks, larger or smaller thinking budgets, and a reviewer agent on top of our final configuration. What helped was agent design that reduces wasted and unverified runs. For a small agent, that is the main enemy.</aside>
+</section>

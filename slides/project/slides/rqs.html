@@ -1,0 +1,14 @@
+<section id="rqs" style="gap:72px">
+<div class="hd">
+<p class="lab">Research questions</p>
+<h2>Four questions, one per lever</h2>
+</div>
+<div class="two" style="row-gap:64px">
+<div class="fact"><p class="lab">RQ1 · Measurement</p><h3>How noisy is one evaluation, and how many seeds are needed?</h3><p>About ±5 tasks per run; use 3–12 seeds and paired tests.</p></div>
+<div class="fact"><p class="lab">RQ2 · Test-time compute</p><h3>At equal measured cost: longer runs, or more runs plus selection?</h3><p>Longer runs. Selection without tests does not generalise.</p></div>
+<div class="fact"><p class="lab">RQ3 · Weights</p><h3>Does LoRA fine-tuning on solved trajectories help?</h3><p>No. All three recipes reduced accuracy.</p></div>
+<div class="fact"><p class="lab" style="color:var(--ours)">RQ4 · Agent design</p><h3>Can trace analysis find a change that transfers to hidden tasks?</h3><p>Yes: +1.6 tasks over Patchsmith, 0.17 → 0.20 on Kaggle.</p></div>
+</div>
+<div class="foot"><span>Research questions</span><span class="pg"></span></div>
+<aside>The project is organised around four research questions, one per lever a practitioner has. Measurement: how noisy is one evaluation. Test-time compute: longer runs or more runs. Weights: does LoRA help. And agent design: can trace analysis find a fix that transfers. I put the short answers on the slide; the rest of the talk shows the evidence.</aside>
+</section>

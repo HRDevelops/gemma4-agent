@@ -1,0 +1,29 @@
+\documentclass[border=4pt]{standalone}
+\input{C:/Users/husna/.claude/skills/sci-paper-figures/assets/figstyle.tex}
+\begin{document}
+\begin{tikzpicture}[font=\small, node distance=6mm and 7mm]
+% --- top row: one agent episode
+\node[clin, minimum width=2.5cm, minimum height=1.1cm] (issue) {GitHub issue\\[-1pt]\footnotesize + repo snapshot};
+\node[enc, right=8mm of issue, minimum width=3.3cm, minimum height=1.1cm] (agent) {Gemma 4 agent\\[-1pt]\footnotesize prompt $\cdot$ tools $\cdot$ sampling $\cdot$ limits};
+\node[clin, right=14mm of agent, minimum width=2.5cm, minimum height=1.1cm] (sbx) {Sandbox\\[-1pt]\footnotesize Apptainer, rootless};
+\node[clin, right=8mm of sbx, minimum width=2.3cm, minimum height=1.1cm] (diff) {Final diff};
+\draw[arr] (issue) -- (agent);
+\draw[arr] ([yshift=2.5mm]agent.east) -- node[lab, above]{\footnotesize tool call $a_i$} ([yshift=2.5mm]sbx.west);
+\draw[arr] ([yshift=-2.5mm]sbx.west) -- node[lab, below]{\footnotesize obs.\ $o_i$} ([yshift=-2.5mm]agent.east);
+\draw[arr] (sbx) -- (diff);
+% --- bottom row: grading and analysis
+\node[dec, below=9mm of diff, minimum width=2.3cm, minimum height=1.1cm] (grade) {Hidden tests\\[-1pt]\footnotesize our grader};
+\node[dec, left=8mm of grade, minimum width=2.5cm, minimum height=1.1cm] (trace) {Traces + outcomes\\[-1pt]\footnotesize 3--12 seeds $\times$ 118};
+\node[head, left=14mm of trace, minimum width=3.3cm, minimum height=1.1cm] (anal) {Within-task contrast\\[-1pt]\footnotesize solved vs.\ failed runs};
+\node[head, left=8mm of anal, minimum width=2.5cm, minimum height=1.1cm] (edit) {Prompt edits\\[-1pt]\footnotesize screen $\rightarrow$ confirm};
+\draw[arr] (diff) -- (grade);
+\draw[arr] (grade) -- (trace);
+\draw[arr] (trace) -- (anal);
+\draw[arr] (anal) -- (edit);
+\draw[arr, draw=headD] (edit.north) |- node[lab, pos=0.25, left, text=headD]{\footnotesize new prompt $x$} ([yshift=-4.5mm]agent.south) -- (agent.south);
+% --- other levers (dashed: tested, did not help)
+\node[apdb, below=7mm of anal, xshift=25mm, minimum width=7.6cm, align=center] (neg)
+  {Also tested: budget vs.\ $k$ samples + selection (RQ2), LoRA on solved traces (RQ3)};
+\draw[apd] (trace.south) -- (trace.south |- neg.north);
+\end{tikzpicture}
+\end{document}

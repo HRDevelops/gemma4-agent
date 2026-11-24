@@ -1,0 +1,23 @@
+<section id="result" class="night" style="justify-content:space-between">
+<div class="hd">
+<p class="lab">Headline result</p>
+<h2>Our final agent against the public Budget-Fit baseline</h2>
+</div>
+<div class="three">
+<div style="display:flex;flex-direction:column;gap:20px;border-top:1px solid #3A3D42;padding-top:28px">
+<p style="font-family:'Newsreader', Georgia, serif;font-size:80px;line-height:1;color:#F2EFE8">47.9 <span style="color:#A9A49A">→</span> <span style="color:#E39A55">51.9</span></p>
+<p style="font-size:28px;color:#A9A49A">local tasks solved per seed, of 118<br>+4.0 [+0.9, +7.2], paired bootstrap</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:20px;border-top:1px solid #3A3D42;padding-top:28px">
+<p style="font-family:'Newsreader', Georgia, serif;font-size:80px;line-height:1;color:#F2EFE8">9.2 <span style="color:#A9A49A">→</span> <span style="color:#E39A55">2.7</span></p>
+<p style="font-size:28px;color:#A9A49A">runs per seed stopped by a time,<br>call or turn limit (−71%)</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:20px;border-top:1px solid #3A3D42;padding-top:28px">
+<p style="font-family:'Newsreader', Georgia, serif;font-size:80px;line-height:1;color:#F2EFE8">0.13 <span style="color:#A9A49A">→</span> <span style="color:#E39A55">0.20</span></p>
+<p style="font-size:28px;color:#A9A49A">Kaggle public score on hidden<br>issues, same compute budget</p>
+</div>
+</div>
+<p style="font-size:28px;color:#A9A49A;width:1200px">Same limits, same model, same time per task (228 vs 222 s). The gain comes from agent design, not from more compute.</p>
+<div class="foot"><span>Budget-Fit: 10 seeds · Patchsmith-check: 9 seeds · 118 tasks</span><span class="pg"></span></div>
+<aside>Here is the headline before the details. We started from Budget-Fit, the public configuration most teams used as a stable baseline. Our final agent, Patchsmith-check, solves four more tasks per seed locally, with a confidence interval that excludes zero, wastes 71 percent fewer runs on budget limits, and moved the hidden leaderboard score from 0.13 to 0.20. All of this under the same limits and the same time per task.</aside>
+</section>

@@ -1,0 +1,16 @@
+<section id="related" style="gap:72px">
+<div class="hd">
+<p class="lab">Related work</p>
+<h2>Related work and how our setting differs</h2>
+</div>
+<table style="font-size:28px">
+<tr><th style="width:22%">Line of work</th><th style="width:44%">Key papers</th><th style="width:34%">Our setting</th></tr>
+<tr><td>SWE agents</td><td>SWE-bench, SWE-agent, OpenHands, Agentless, ReAct</td><td>Small open model, hard budget</td></tr>
+<tr><td>Test-time compute</td><td>Large Language Monkeys, Snell et al., CodeMonkeys, self-consistency</td><td>No tests or trained verifier to pick</td></tr>
+<tr><td>Agent fine-tuning</td><td>LoRA, QLoRA, STaR, RFT, FireAct, AgentTuning, SWE-Gym, SWE-smith</td><td>About 150 episodes, at most 46 tasks</td></tr>
+<tr><td>Reasoning models</td><td>Chain-of-thought, DeepSeek-R1, Gemma technical reports</td><td>Thinking budget is a hard cap</td></tr>
+<tr><td>Evaluation</td><td>AI Agents That Matter, Adding error bars to evals</td><td>Live leaderboard, noisy public split</td></tr>
+</table>
+<div class="foot"><span>27 references in the report</span><span class="pg"></span></div>
+<aside>We build on five lines of work. SWE-bench defined the task format; SWE-agent, OpenHands and Agentless defined agent designs. Test-time scaling papers show big gains from sampling, but they pick the patch with tests or a trained verifier, which we do not have. Agent fine-tuning papers use hundreds to thousands of tasks; we have under fifty. And evaluation papers argue for cost-aware comparisons and error bars, which we apply to a live leaderboard.</aside>
+</section>

@@ -1,0 +1,46 @@
+:root {
+  --ink: #1B1B1B;
+  --mute: #5E5E5E;
+  --faint: #8A8A8A;
+  --rule: #DCD8D0;
+  --base: #4C6FB0;
+  --ours: #C9762A;
+  --night: #17191C;
+  --nightText: #F2EFE8;
+  --nightMute: #A9A49A;
+}
+body { font-family: 'IBM Plex Sans', Arial, sans-serif; color: var(--ink); }
+section {
+  padding: 112px 128px 144px;
+  background: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  box-sizing: border-box;
+  counter-increment: page;
+}
+section.night { background: var(--night); color: var(--nightText); }
+h1 { font-family: 'Newsreader', Georgia, serif; font-size: 156px; font-weight: 500; line-height: 1.02; letter-spacing: -2px; color: var(--nightText); }
+h2 { font-family: 'Newsreader', Georgia, serif; font-size: 58px; font-weight: 500; line-height: 1.1; letter-spacing: -0.5px; color: var(--ink); }
+section.night h2 { color: var(--nightText); }
+h3 { font-family: 'Newsreader', Georgia, serif; font-size: 40px; font-weight: 500; line-height: 1.15; color: var(--ink); }
+p { font-size: 30px; line-height: 1.4; color: var(--ink); }
+li { font-size: 30px; line-height: 1.4; color: var(--ink); margin-bottom: 18px; }
+.hd { display: flex; flex-direction: column; gap: 14px; padding-bottom: 24px; border-bottom: 1px solid var(--rule); }
+section.night .hd { border-bottom: 1px solid #3A3D42; }
+.lab { font-family: 'IBM Plex Mono', monospace; font-size: 24px; color: var(--mute); }
+section.night .lab { color: var(--nightMute); }
+.mute { color: var(--mute); }
+.row { display: flex; gap: 72px; flex: 1; align-items: center; }
+.col { display: flex; flex-direction: column; gap: 36px; flex: 1; }
+.fact { display: flex; flex-direction: column; gap: 8px; padding-top: 18px; border-top: 1px solid var(--rule); }
+.fact p { font-size: 28px; color: var(--mute); }
+p.num, .fact p.num { font-family: 'Newsreader', Georgia, serif; font-size: 76px; font-weight: 500; line-height: 1; color: var(--ink); }
+.fact p.num.o, p.num.o { color: var(--ours); }
+.fact p.num.b, p.num.b { color: var(--base); }
+.three { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 56px; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; }
+.foot { position: absolute; left: 128px; bottom: 56px; width: 1664px; display: flex; justify-content: space-between; font-family: 'IBM Plex Mono', monospace; font-size: 24px; color: var(--faint); }
+section.night .foot { color: var(--nightMute); }
+.foot .pg::after { content: counter(page); }
+table { font-size: 26px; color: var(--ink); width: 100%; }

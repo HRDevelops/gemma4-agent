@@ -1,0 +1,14 @@
+<section id="rq4res" style="justify-content:space-between">
+<div class="hd">
+<p class="lab">RQ4 · Patchsmith-check</p>
+<h2>Four prompt sentences changed: 0.17 → 0.20</h2>
+</div>
+<div style="display:flex;justify-content:center"><img src="/_blob/c65d87fe396063a130ddbc9020fb329f" alt="Tasks solved per seed on screen and fresh seeds, and behaviour metrics for Patchsmith versus Patchsmith-check" style="width:1250px;height:411px;object-fit:contain"></div>
+<div class="three">
+<div class="fact"><p class="num o">9% → 27%</p><p>runs ending with pytest as the final check</p></div>
+<div class="fact"><p class="num">+1.6</p><p>tasks pooled over Patchsmith (12 vs 9 seeds), [−0.8, +4.2]</p></div>
+<div class="fact"><p class="num o">0.20</p><p>Kaggle public score, best of our five submissions</p></div>
+</div>
+<div class="foot"><span>Edits: pytest works · 4-step final checklist · edit-retry rule · scratch files in /tmp</span><span class="pg"></span></div>
+<aside>From that analysis I changed four sentences of the prompt: tell the agent pytest works, add a four-step final checklist, an edit-retry rule, and keep scratch files in /tmp. The targeted behaviours moved as intended: pytest as final check tripled, scratch files disappeared. The screen showed plus 3.8 tasks; on fresh seeds it shrank to plus 0.8, the expected regression after selecting on a screen. The pooled pre-registered test cleared the bar at plus 1.6, and on Kaggle it scored 0.20.</aside>
+</section>

@@ -1,0 +1,14 @@
+<section id="method" style="justify-content:space-between">
+<div class="hd">
+<p class="lab">Method</p>
+<h2>Measure, contrast traces, edit, confirm</h2>
+</div>
+<div style="display:flex;justify-content:center"><img src="/_blob/bf72bf8ff897ff235eb47768d630d265" alt="Pipeline: issue to Gemma 4 agent to sandbox to diff to hidden tests to traces, then within-task contrast and prompt edits feeding back into the agent" style="width:1200px;height:400px;object-fit:contain"></div>
+<div class="three">
+<div class="fact"><p class="lab">Baseline</p><p>Budget-Fit, the public 31B config: 8 min, 28 tool calls, 80 turns, temperature 0.2.</p></div>
+<div class="fact"><p class="lab">Statistics</p><p>Paired bootstrap over the 118 tasks; 3–12 seeds per arm; noise model Var = Σ p(1 − p).</p></div>
+<div class="fact"><p class="lab">Protocol</p><p>3-seed screen with gates fixed in advance, then fresh seeds; adopt only if the pooled gain clears the bar.</p></div>
+</div>
+<div class="foot"><span>Method</span><span class="pg"></span></div>
+<aside>This is the loop we used. Every configuration runs with several seeds on all 118 tasks; our grader scores the patches; then we compare solved and failed runs of the same task, turn what separates them into prompt edits, and accept an edit only if it survives a screen and a confirmation on fresh seeds. The baseline is Budget-Fit. All comparisons are paired over tasks with bootstrap confidence intervals.</aside>
+</section>

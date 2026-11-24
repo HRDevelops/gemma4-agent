@@ -1,0 +1,16 @@
+<section id="rq2sel" style="justify-content:space-between">
+<div class="hd">
+<p class="lab">RQ2 · Selection without tests</p>
+<h2>Test-free selection gains halve on fresh seeds</h2>
+</div>
+<div class="row">
+<img src="/_blob/4242d79eaadb00c21df1e47edac4d6d1" alt="Share of oracle headroom recovered by the best rule in-sample versus on fresh seeds, equal to a plain validity filter" style="width:896px;height:580px;object-fit:contain">
+<div class="col">
+<div class="fact"><p class="num o">72% → 34%</p><p>oracle headroom recovered at k = 5: in-sample vs pre-registered fresh seeds.</p></div>
+<div class="fact"><p class="num ">70 vs 58</p><p>tasks with a correct patch among five long runs vs tasks the best selector picks.</p></div>
+<p class="mute" style="font-size:28px">Gemma 4 judging its own patches added nothing. Without tests, selection is the bottleneck, not generation.</p>
+</div>
+</div>
+<div class="foot"><span>Rule frozen in a written pre-registration before seeds 5–9</span><span class="pg"></span></div>
+<aside>Could a smart selector rescue sampling? In-sample, a simple rule looked great: 72 percent of the headroom. I froze it in a written pre-registration and ran five new seeds. It dropped to about a third, no better than just discarding invalid runs. Gemma judging its own patches added nothing. Among five long runs there is a correct patch for 70 tasks, but we can only find 58.</aside>
+</section>

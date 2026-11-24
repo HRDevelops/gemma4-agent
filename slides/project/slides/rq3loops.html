@@ -1,0 +1,16 @@
+<section id="rq3loops" style="justify-content:space-between">
+<div class="hd">
+<p class="lab">RQ3 · Diagnosis</p>
+<h2>The E4B adapter loops until the thinking cap</h2>
+</div>
+<div class="row">
+<img src="/_blob/0f8f786d6473295202524db40555cf7b" alt="Histogram of tokens per model step: the E4B adapter has a large spike at the 4,096-token thinking cap, the base model does not" style="width:939px;height:580px;object-fit:contain">
+<div class="col">
+<div class="fact"><p class="num o">2,527 vs 6</p><p>steps ending exactly at the thinking cap: adapter vs base.</p></div>
+<div class="fact"><p class="num ">1.02 → 0.38</p><p>training loss of the Qwen adapter while it learned a broken tool protocol.</p></div>
+<p class="mute" style="font-size:28px">A label audit (stop tokens, windows, chat template) found no bug. Likely causes: too few distinct tasks, style copying, repetition in a smaller student.</p>
+</div>
+</div>
+<div class="foot"><span>LoRA also cost E4B 23% of generation throughput</span><span class="pg"></span></div>
+<aside>The diagnostics matter more than the scores here. For E4B, one statistic explains the collapse: 2,527 steps ended exactly at the 4,096-token thinking budget, against six for the base model. The Qwen adapter's loss fell from 1.02 to 0.38 while it learned a broken protocol, so a falling loss does not certify agent behaviour. I audited the labels and found no bug; the likely reasons are too little data and the known failure modes of imitation.</aside>
+</section>

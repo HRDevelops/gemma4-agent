@@ -1,0 +1,9 @@
+<section id="overview" style="justify-content:space-between">
+<div class="hd">
+<p class="lab">Improvement path</p>
+<h2>Each step tested against the baseline on the same 118 tasks</h2>
+</div>
+<div style="display:flex;justify-content:center"><img src="/_blob/3771fe44ebfdf68324d3c468de902086" alt="Three panels: tasks solved per seed rising from 47.9 for Budget-Fit to 51.9 for Patchsmith-check; runs stopped by a limit falling from 9.2 to 2.7; Kaggle public score rising from 0.13 to 0.20" style="width:1664px;height:594px;object-fit:contain"></div>
+<div class="foot"><span>Blue: Budget-Fit baseline · orange: ours · grey: intermediate steps (guard: ours; pub_v6, Patchsmith: public)</span><span class="pg"></span></div>
+<aside>This figure is the improvement path. Panel a: tasks solved per seed, each circle a seed. The baseline averages 47.9; adopting the Patchsmith workflow brought 50.2, and our trace-guided revision 51.9, plus four tasks with an interval that excludes zero. Panel b shows the mechanism: runs wasted on limits drop from 9.2 to 2.7 per seed. Panel c: the hidden leaderboard rises monotonically from 0.13 to 0.20. Each single step is within leaderboard noise, but the full path is one and a half standard deviations.</aside>
+</section>

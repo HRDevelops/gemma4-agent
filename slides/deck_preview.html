@@ -1,0 +1,353 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400..600&family=IBM+Plex+Sans:wght@400;600&family=IBM+Plex+Mono:wght@400&display=swap"><style>*{margin:0} body{background:#888} :root {
+  --ink: #1B1B1B;
+  --mute: #5E5E5E;
+  --faint: #8A8A8A;
+  --rule: #DCD8D0;
+  --base: #4C6FB0;
+  --ours: #C9762A;
+  --night: #17191C;
+  --nightText: #F2EFE8;
+  --nightMute: #A9A49A;
+}
+body { font-family: 'IBM Plex Sans', Arial, sans-serif; color: var(--ink); }
+section {
+  padding: 112px 128px 144px;
+  background: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  box-sizing: border-box;
+  counter-increment: page;
+}
+section.night { background: var(--night); color: var(--nightText); }
+h1 { font-family: 'Newsreader', Georgia, serif; font-size: 156px; font-weight: 500; line-height: 1.02; letter-spacing: -2px; color: var(--nightText); }
+h2 { font-family: 'Newsreader', Georgia, serif; font-size: 58px; font-weight: 500; line-height: 1.1; letter-spacing: -0.5px; color: var(--ink); }
+section.night h2 { color: var(--nightText); }
+h3 { font-family: 'Newsreader', Georgia, serif; font-size: 40px; font-weight: 500; line-height: 1.15; color: var(--ink); }
+p { font-size: 30px; line-height: 1.4; color: var(--ink); }
+li { font-size: 30px; line-height: 1.4; color: var(--ink); margin-bottom: 18px; }
+.hd { display: flex; flex-direction: column; gap: 14px; padding-bottom: 24px; border-bottom: 1px solid var(--rule); }
+section.night .hd { border-bottom: 1px solid #3A3D42; }
+.lab { font-family: 'IBM Plex Mono', monospace; font-size: 24px; color: var(--mute); }
+section.night .lab { color: var(--nightMute); }
+.mute { color: var(--mute); }
+.row { display: flex; gap: 72px; flex: 1; align-items: center; }
+.col { display: flex; flex-direction: column; gap: 36px; flex: 1; }
+.fact { display: flex; flex-direction: column; gap: 8px; padding-top: 18px; border-top: 1px solid var(--rule); }
+.fact p { font-size: 28px; color: var(--mute); }
+p.num, .fact p.num { font-family: 'Newsreader', Georgia, serif; font-size: 76px; font-weight: 500; line-height: 1; color: var(--ink); }
+.fact p.num.o, p.num.o { color: var(--ours); }
+.fact p.num.b, p.num.b { color: var(--base); }
+.three { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 56px; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; }
+.foot { position: absolute; left: 128px; bottom: 56px; width: 1664px; display: flex; justify-content: space-between; font-family: 'IBM Plex Mono', monospace; font-size: 24px; color: var(--faint); }
+section.night .foot { color: var(--nightMute); }
+.foot .pg::after { content: counter(page); }
+table { font-size: 26px; color: var(--ink); width: 100%; }
+ section{width:1920px;height:1080px;position:relative;overflow:hidden;margin:0 0 40px 0} aside{display:none} ol{padding-left:40px} table{border-collapse:collapse} td,th{border:1px solid #ccc;padding:.35em .6em;text-align:left}</style></head><body>
+<section id="cover" class="night" style="justify-content:space-between">
+<p class="lab">CS594/794 Deep Learning · Final project</p>
+<div style="display:flex;flex-direction:column;gap:36px">
+<h1>From 0.13 to 0.20</h1>
+<p style="font-family:'Newsreader', Georgia, serif;font-size:46px;line-height:1.2;color:#C9C4BA;width:1300px">Trace-guided improvement of a small open-weight coding agent under a fixed compute budget</p>
+</div>
+<div style="display:flex;justify-content:space-between;align-items:flex-end;border-top:1px solid #3A3D42;padding-top:28px">
+<p style="font-size:30px;color:#F2EFE8">Husnain Rasool<br><span style="color:#A9A49A">Nazarbayev University</span></p>
+<p class="lab" style="text-align:right">Gemma 4 · Kaggle Developer Agent competition</p>
+</div>
+<aside>Today I will show how we improved a small open-weight coding agent from a public baseline that scored 0.13 on the Kaggle leaderboard to our final agent at 0.20, without more compute, and what we learned about which levers work for small agents and which do not.</aside>
+</section>
+
+<section id="problem" style="justify-content:space-between">
+<div class="hd">
+<p class="lab">Problem</p>
+<h2>Fix real GitHub issues with a small open model on fixed compute</h2>
+</div>
+<div class="row">
+<div class="col" style="flex:0 0 760px;gap:28px">
+<p>The agent reads an issue, explores the repository with shell and file tools, edits code and submits a patch. Hidden unit tests decide whether the issue is solved.</p>
+<p class="mute">Published SWE agents use frontier models, unlimited compute and tests to pick patches. Here there is none of that: only the agent's configuration can change.</p>
+</div>
+<div class="col" style="gap:0">
+<div style="display:flex;gap:32px;padding:20px 0;border-top:1px solid var(--rule)"><p class="lab" style="flex:0 0 210px">Model</p><p>Gemma 4 31B and E4B, 4-bit QAT</p></div>
+<div style="display:flex;gap:32px;padding:20px 0;border-top:1px solid var(--rule)"><p class="lab" style="flex:0 0 210px">Compute</p><p>4 × L4 GPUs, 12 h for about 120 hidden issues</p></div>
+<div style="display:flex;gap:32px;padding:20px 0;border-top:1px solid var(--rule)"><p class="lab" style="flex:0 0 210px">We control</p><p>Prompt, tools, sampling, limits, LoRA adapter</p></div>
+<div style="display:flex;gap:32px;padding:20px 0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)"><p class="lab" style="flex:0 0 210px">Score</p><p>Share of issues resolved; public split ≈ 58 tasks</p></div>
+</div>
+</div>
+<div class="foot"><span>Kaggle Gemma 4 Developer Agent competition</span><span class="pg"></span></div>
+<aside>The task: given a real GitHub issue and a repository snapshot, the agent explores and edits with tools, then submits a patch, and hidden tests decide. The competition fixes the model to Gemma 4, the hardware to four L4 GPUs, and the time to twelve hours for about 120 hidden issues. We can only change the configuration. That is a realistic small-model setting, very different from most published SWE-agent work.</aside>
+</section>
+
+<section id="result" class="night" style="justify-content:space-between">
+<div class="hd">
+<p class="lab">Headline result</p>
+<h2>Our final agent against the public Budget-Fit baseline</h2>
+</div>
+<div class="three">
+<div style="display:flex;flex-direction:column;gap:20px;border-top:1px solid #3A3D42;padding-top:28px">
+<p style="font-family:'Newsreader', Georgia, serif;font-size:80px;line-height:1;color:#F2EFE8">47.9 <span style="color:#A9A49A">→</span> <span style="color:#E39A55">51.9</span></p>
+<p style="font-size:28px;color:#A9A49A">local tasks solved per seed, of 118<br>+4.0 [+0.9, +7.2], paired bootstrap</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:20px;border-top:1px solid #3A3D42;padding-top:28px">
+<p style="font-family:'Newsreader', Georgia, serif;font-size:80px;line-height:1;color:#F2EFE8">9.2 <span style="color:#A9A49A">→</span> <span style="color:#E39A55">2.7</span></p>
+<p style="font-size:28px;color:#A9A49A">runs per seed stopped by a time,<br>call or turn limit (−71%)</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:20px;border-top:1px solid #3A3D42;padding-top:28px">
+<p style="font-family:'Newsreader', Georgia, serif;font-size:80px;line-height:1;color:#F2EFE8">0.13 <span style="color:#A9A49A">→</span> <span style="color:#E39A55">0.20</span></p>
+<p style="font-size:28px;color:#A9A49A">Kaggle public score on hidden<br>issues, same compute budget</p>
+</div>
+</div>
+<p style="font-size:28px;color:#A9A49A;width:1200px">Same limits, same model, same time per task (228 vs 222 s). The gain comes from agent design, not from more compute.</p>
+<div class="foot"><span>Budget-Fit: 10 seeds · Patchsmith-check: 9 seeds · 118 tasks</span><span class="pg"></span></div>
+<aside>Here is the headline before the details. We started from Budget-Fit, the public configuration most teams used as a stable baseline. Our final agent, Patchsmith-check, solves four more tasks per seed locally, with a confidence interval that excludes zero, wastes 71 percent fewer runs on budget limits, and moved the hidden leaderboard score from 0.13 to 0.20. All of this under the same limits and the same time per task.</aside>
+</section>
+
+<section id="rqs" style="gap:72px">
+<div class="hd">
+<p class="lab">Research questions</p>
+<h2>Four questions, one per lever</h2>
+</div>
+<div class="two" style="row-gap:64px">
+<div class="fact"><p class="lab">RQ1 · Measurement</p><h3>How noisy is one evaluation, and how many seeds are needed?</h3><p>About ±5 tasks per run; use 3–12 seeds and paired tests.</p></div>
+<div class="fact"><p class="lab">RQ2 · Test-time compute</p><h3>At equal measured cost: longer runs, or more runs plus selection?</h3><p>Longer runs. Selection without tests does not generalise.</p></div>
+<div class="fact"><p class="lab">RQ3 · Weights</p><h3>Does LoRA fine-tuning on solved trajectories help?</h3><p>No. All three recipes reduced accuracy.</p></div>
+<div class="fact"><p class="lab" style="color:var(--ours)">RQ4 · Agent design</p><h3>Can trace analysis find a change that transfers to hidden tasks?</h3><p>Yes: +1.6 tasks over Patchsmith, 0.17 → 0.20 on Kaggle.</p></div>
+</div>
+<div class="foot"><span>Research questions</span><span class="pg"></span></div>
+<aside>The project is organised around four research questions, one per lever a practitioner has. Measurement: how noisy is one evaluation. Test-time compute: longer runs or more runs. Weights: does LoRA help. And agent design: can trace analysis find a fix that transfers. I put the short answers on the slide; the rest of the talk shows the evidence.</aside>
+</section>
+
+<section id="related" style="gap:72px">
+<div class="hd">
+<p class="lab">Related work</p>
+<h2>Related work and how our setting differs</h2>
+</div>
+<table style="font-size:28px">
+<tr><th style="width:22%">Line of work</th><th style="width:44%">Key papers</th><th style="width:34%">Our setting</th></tr>
+<tr><td>SWE agents</td><td>SWE-bench, SWE-agent, OpenHands, Agentless, ReAct</td><td>Small open model, hard budget</td></tr>
+<tr><td>Test-time compute</td><td>Large Language Monkeys, Snell et al., CodeMonkeys, self-consistency</td><td>No tests or trained verifier to pick</td></tr>
+<tr><td>Agent fine-tuning</td><td>LoRA, QLoRA, STaR, RFT, FireAct, AgentTuning, SWE-Gym, SWE-smith</td><td>About 150 episodes, at most 46 tasks</td></tr>
+<tr><td>Reasoning models</td><td>Chain-of-thought, DeepSeek-R1, Gemma technical reports</td><td>Thinking budget is a hard cap</td></tr>
+<tr><td>Evaluation</td><td>AI Agents That Matter, Adding error bars to evals</td><td>Live leaderboard, noisy public split</td></tr>
+</table>
+<div class="foot"><span>27 references in the report</span><span class="pg"></span></div>
+<aside>We build on five lines of work. SWE-bench defined the task format; SWE-agent, OpenHands and Agentless defined agent designs. Test-time scaling papers show big gains from sampling, but they pick the patch with tests or a trained verifier, which we do not have. Agent fine-tuning papers use hundreds to thousands of tasks; we have under fifty. And evaluation papers argue for cost-aware comparisons and error bars, which we apply to a live leaderboard.</aside>
+</section>
+
+<section id="data" style="justify-content:space-between">
+<div class="hd">
+<p class="lab">Data and grader</p>
+<h2>118 sound tasks and a grader that matches Kaggle</h2>
+</div>
+<div class="row" style="align-items:flex-start">
+<div class="col" style="flex:0 0 640px">
+<div class="fact"><p class="num">129 → 118</p><p>public tasks kept: the gold patch passes and an empty patch fails. fastapi 60, rich 45, requests 12, httpx 1.</p></div>
+<div class="fact"><p class="num">15,000+</p><p>agent runs on 2 × H100 with Kaggle's own vLLM wheel; L4 time measured at 1.17 × H100.</p></div>
+</div>
+<div class="col">
+<p class="lab">Three silent scoring faults we fixed</p>
+<ol>
+<li><b>Package shadowing.</b> Bundled wheels hid the repository under test: 38 empty patches "passed".</li>
+<li><b>Version drift.</b> The newest of 56 starlette versions broke old snapshots; we pin the newest version released before the issue.</li>
+<li><b>Stale cache.</b> A fixed-name cache in /tmp let parallel jobs reuse the wrong environment.</li>
+</ol>
+</div>
+</div>
+<div class="foot"><span>Rootless Apptainer replacement for the Docker harness</span><span class="pg"></span></div>
+<aside>The competition released 129 public tasks. Applying the gold patch and an empty patch leaves 118 sound tasks. Getting the grader right was a project in itself: three faults in the public setup silently changed scores. For example, bundled wheels shadowed the repository, so 38 tasks passed with an empty patch. After the fixes our grader matches the official labels.</aside>
+</section>
+
+<section id="method" style="justify-content:space-between">
+<div class="hd">
+<p class="lab">Method</p>
+<h2>Measure, contrast traces, edit, confirm</h2>
+</div>
+<div style="display:flex;justify-content:center"><img src="figs/fig_pipeline.png" alt="Pipeline: issue to Gemma 4 agent to sandbox to diff to hidden tests to traces, then within-task contrast and prompt edits feeding back into the agent" style="width:1200px;height:400px;object-fit:contain"></div>
+<div class="three">
+<div class="fact"><p class="lab">Baseline</p><p>Budget-Fit, the public 31B config: 8 min, 28 tool calls, 80 turns, temperature 0.2.</p></div>
+<div class="fact"><p class="lab">Statistics</p><p>Paired bootstrap over the 118 tasks; 3–12 seeds per arm; noise model Var = Σ p(1 − p).</p></div>
+<div class="fact"><p class="lab">Protocol</p><p>3-seed screen with gates fixed in advance, then fresh seeds; adopt only if the pooled gain clears the bar.</p></div>
+</div>
+<div class="foot"><span>Method</span><span class="pg"></span></div>
+<aside>This is the loop we used. Every configuration runs with several seeds on all 118 tasks; our grader scores the patches; then we compare solved and failed runs of the same task, turn what separates them into prompt edits, and accept an edit only if it survives a screen and a confirmation on fresh seeds. The baseline is Budget-Fit. All comparisons are paired over tasks with bootstrap confidence intervals.</aside>
+</section>
+
+<section id="overview" style="justify-content:space-between">
+<div class="hd">
+<p class="lab">Improvement path</p>
+<h2>Each step tested against the baseline on the same 118 tasks</h2>
+</div>
+<div style="display:flex;justify-content:center"><img src="figs/fig_overview.png" alt="Three panels: tasks solved per seed rising from 47.9 for Budget-Fit to 51.9 for Patchsmith-check; runs stopped by a limit falling from 9.2 to 2.7; Kaggle public score rising from 0.13 to 0.20" style="width:1664px;height:594px;object-fit:contain"></div>
+<div class="foot"><span>Blue: Budget-Fit baseline · orange: ours · grey: intermediate steps (guard: ours; pub_v6, Patchsmith: public)</span><span class="pg"></span></div>
+<aside>This figure is the improvement path. Panel a: tasks solved per seed, each circle a seed. The baseline averages 47.9; adopting the Patchsmith workflow brought 50.2, and our trace-guided revision 51.9, plus four tasks with an interval that excludes zero. Panel b shows the mechanism: runs wasted on limits drop from 9.2 to 2.7 per seed. Panel c: the hidden leaderboard rises monotonically from 0.13 to 0.20. Each single step is within leaderboard noise, but the full path is one and a half standard deviations.</aside>
+</section>
+
+<section id="rq1" style="justify-content:space-between">
+<div class="hd">
+<p class="lab">RQ1 · Measurement</p>
+<h2>One run carries about ±5 tasks of seed noise</h2>
+</div>
+<div class="row">
+<img src="figs/fig_flip.png" alt="Tasks grouped by share of seeds that solve them: 57 never, 31 flipping, 30 always in the short regime" style="width:939px;height:580px;object-fit:contain">
+<div class="col">
+<div class="fact"><p class="num ">31 of 118</p><p>tasks flip between seeds of the same configuration.</p></div>
+<div class="fact"><p class="num ">4–5 tasks</p><p>smallest difference detectable even with 5 seeds per arm.</p></div>
+<div class="fact"><p class="num o">0.08–0.20</p><p>public scores of identical configs submitted by different teams.</p></div>
+</div>
+</div>
+<div class="foot"><span>Predicted SD 2.35 vs observed 2.85 tasks per run</span><span class="pg"></span></div>
+<aside>First result: one evaluation is noisy. About a quarter of the tasks flip between seeds of the identical configuration. Modelling each task as a coin, one run has a 95 percent interval of about plus or minus five tasks, so even five seeds per arm cannot detect differences below four to five tasks. On the leaderboard, identical configurations scored anywhere from 0.08 to 0.20. That is why every comparison in this talk uses several seeds and paired tests.</aside>
+</section>
+
+<section id="rq2" style="justify-content:space-between">
+<div class="hd">
+<p class="lab">RQ2 · Test-time compute</p>
+<h2>A larger budget per run beats more short runs</h2>
+</div>
+<div class="row">
+<img src="figs/fig_frontier.png" alt="Tasks solved versus measured minutes per task: the short-run curve lies below medium and long budgets at every cost" style="width:822px;height:580px;object-fit:contain">
+<div class="col">
+<div class="fact"><p class="num o">+4.9</p><p>tasks: one medium run vs one short run, 95% CI [+1.6, +8.5].</p></div>
+<div class="fact"><p class="num ">2.6 ×</p><p>the cost of five short runs plus a selector, still not better than one long run (−1.1).</p></div>
+<div class="fact"><p class="num ">20% → 4%</p><p>invalid runs (no patch or a limit hit) from short to long budget. Invalid runs never solve.</p></div>
+</div>
+</div>
+<div class="foot"><span>2,950 runs, 4 budget regimes, cost = measured minutes</span><span class="pg"></span></div>
+<aside>Second: test-time compute. At equal measured cost, a larger budget per run matched or beat sampling several short runs at every cost level. One medium run beat one short run by almost five tasks. Five short runs plus selection cost 2.6 times as much as one long run and were not better. The mechanism is wasted runs: runs that end without a usable patch never solve, and a larger budget removes most of them at low cost, because most runs stop early anyway.</aside>
+</section>
+
+<section id="rq2sel" style="justify-content:space-between">
+<div class="hd">
+<p class="lab">RQ2 · Selection without tests</p>
+<h2>Test-free selection gains halve on fresh seeds</h2>
+</div>
+<div class="row">
+<img src="figs/fig_holdout.png" alt="Share of oracle headroom recovered by the best rule in-sample versus on fresh seeds, equal to a plain validity filter" style="width:896px;height:580px;object-fit:contain">
+<div class="col">
+<div class="fact"><p class="num o">72% → 34%</p><p>oracle headroom recovered at k = 5: in-sample vs pre-registered fresh seeds.</p></div>
+<div class="fact"><p class="num ">70 vs 58</p><p>tasks with a correct patch among five long runs vs tasks the best selector picks.</p></div>
+<p class="mute" style="font-size:28px">Gemma 4 judging its own patches added nothing. Without tests, selection is the bottleneck, not generation.</p>
+</div>
+</div>
+<div class="foot"><span>Rule frozen in a written pre-registration before seeds 5–9</span><span class="pg"></span></div>
+<aside>Could a smart selector rescue sampling? In-sample, a simple rule looked great: 72 percent of the headroom. I froze it in a written pre-registration and ran five new seeds. It dropped to about a third, no better than just discarding invalid runs. Gemma judging its own patches added nothing. Among five long runs there is a correct patch for 70 tasks, but we can only find 58.</aside>
+</section>
+
+<section id="rq3" style="justify-content:space-between">
+<div class="hd">
+<p class="lab">RQ3 · Fine-tuning</p>
+<h2>All three LoRA recipes reduced accuracy</h2>
+</div>
+<div style="display:flex;justify-content:center"><img src="figs/fig_lora.png" alt="Tasks solved per seed on all tasks and held-out tasks: every LoRA adapter is below its base model" style="width:1400px;height:420px;object-fit:contain"></div>
+<div class="three">
+<div class="fact"><p class="lab">31B self-training · −2.7</p><p>Tied on its training tasks, −2.7 on held-out tasks [−5.7, −0.3].</p></div>
+<div class="fact"><p class="lab">31B ← Qwen teacher · −22.7</p><p>Learned to submit before editing: 1,410 of 1,550 submits empty.</p></div>
+<div class="fact"><p class="lab">E4B ← 31B · −8.7</p><p>Thinking loops to the 4,096-token cap; 88 of 118 runs timed out.</p></div>
+</div>
+<div class="foot"><span>126–169 episodes, 24 held-out tasks, rank 16, served with Kaggle's vLLM wheel</span><span class="pg"></span></div>
+<aside>Third: fine-tuning. I trained three LoRA adapters on solved trajectories. Self-training on the model's own runs learned nothing new: it tied on training tasks and lost on held-out tasks. Distilling from a stronger Qwen model collapsed the agent: it learned to call submit before editing, even though no training example did that. And distilling the 31B model into the small E4B model produced thinking loops that ran until the budget cut them off.</aside>
+</section>
+
+<section id="rq3loops" style="justify-content:space-between">
+<div class="hd">
+<p class="lab">RQ3 · Diagnosis</p>
+<h2>The E4B adapter loops until the thinking cap</h2>
+</div>
+<div class="row">
+<img src="figs/fig_steps.png" alt="Histogram of tokens per model step: the E4B adapter has a large spike at the 4,096-token thinking cap, the base model does not" style="width:939px;height:580px;object-fit:contain">
+<div class="col">
+<div class="fact"><p class="num o">2,527 vs 6</p><p>steps ending exactly at the thinking cap: adapter vs base.</p></div>
+<div class="fact"><p class="num ">1.02 → 0.38</p><p>training loss of the Qwen adapter while it learned a broken tool protocol.</p></div>
+<p class="mute" style="font-size:28px">A label audit (stop tokens, windows, chat template) found no bug. Likely causes: too few distinct tasks, style copying, repetition in a smaller student.</p>
+</div>
+</div>
+<div class="foot"><span>LoRA also cost E4B 23% of generation throughput</span><span class="pg"></span></div>
+<aside>The diagnostics matter more than the scores here. For E4B, one statistic explains the collapse: 2,527 steps ended exactly at the 4,096-token thinking budget, against six for the base model. The Qwen adapter's loss fell from 1.02 to 0.38 while it learned a broken protocol, so a falling loss does not certify agent behaviour. I audited the labels and found no bug; the likely reasons are too little data and the known failure modes of imitation.</aside>
+</section>
+
+<section id="rq4why" style="justify-content:space-between">
+<div class="hd">
+<p class="lab">RQ4 · Trace analysis</p>
+<h2>What separates solved from failed runs of the same task</h2>
+</div>
+<div class="row">
+<img src="figs/fig_audit.png" alt="Manual audit of 30 failed runs by cause; missed final verification and edit-tool loops highlighted as process failures" style="width:952px;height:560px;object-fit:contain">
+<div class="col">
+<div class="fact"><p class="num o">88% vs 47%</p><p>solved vs failed runs with a behaviour check after the last edit (d = +0.89).</p></div>
+<div class="fact"><p class="num ">8%</p><p>of runs ended with pytest, though 94 of 134 pytest calls worked.</p></div>
+<div class="fact"><p class="num ">0.53 vs 0.50</p><p>'reproduce first' within task: a between-task correlation, not a cause.</p></div>
+</div>
+</div>
+<div class="foot"><span>708 Patchsmith runs, 29 tasks solved by some seeds and not others</span><span class="pg"></span></div>
+<aside>Fourth: agent design. I took the strongest public workflow, Patchsmith, and analysed 708 of its runs. The key trick is a within-task comparison: on tasks solved by some seeds and failed by others, which behaviours differ? A behaviour check after the last edit separates them strongly. Pytest worked but was rarely used, because the prompt claimed it might be disabled. And the popular advice to reproduce first turns out to be confounded by task difficulty.</aside>
+</section>
+
+<section id="rq4res" style="justify-content:space-between">
+<div class="hd">
+<p class="lab">RQ4 · Patchsmith-check</p>
+<h2>Four prompt sentences changed: 0.17 → 0.20</h2>
+</div>
+<div style="display:flex;justify-content:center"><img src="figs/fig_pscheck.png" alt="Tasks solved per seed on screen and fresh seeds, and behaviour metrics for Patchsmith versus Patchsmith-check" style="width:1250px;height:411px;object-fit:contain"></div>
+<div class="three">
+<div class="fact"><p class="num o">9% → 27%</p><p>runs ending with pytest as the final check</p></div>
+<div class="fact"><p class="num">+1.6</p><p>tasks pooled over Patchsmith (12 vs 9 seeds), [−0.8, +4.2]</p></div>
+<div class="fact"><p class="num o">0.20</p><p>Kaggle public score, best of our five submissions</p></div>
+</div>
+<div class="foot"><span>Edits: pytest works · 4-step final checklist · edit-retry rule · scratch files in /tmp</span><span class="pg"></span></div>
+<aside>From that analysis I changed four sentences of the prompt: tell the agent pytest works, add a four-step final checklist, an edit-retry rule, and keep scratch files in /tmp. The targeted behaviours moved as intended: pytest as final check tripled, scratch files disappeared. The screen showed plus 3.8 tasks; on fresh seeds it shrank to plus 0.8, the expected regression after selecting on a screen. The pooled pre-registered test cleared the bar at plus 1.6, and on Kaggle it scored 0.20.</aside>
+</section>
+
+<section id="lessons" style="justify-content:space-between">
+<div class="hd">
+<p class="lab">Discussion</p>
+<h2>Levers that tied or lost against their matched baseline</h2>
+</div>
+<div class="two" style="gap:64px">
+<table>
+<tr><th style="width:72%">Change</th><th style="width:28%">Δ tasks</th></tr>
+<tr><td>5 short runs + selector vs 1 long run</td><td>−1.1</td></tr>
+<tr><td>31B LoRA, self-training</td><td>−2.7</td></tr>
+<tr><td>31B LoRA, Qwen teacher</td><td>−22.7</td></tr>
+<tr><td>E4B LoRA from 31B</td><td>−8.7</td></tr>
+<tr><td>3 parallel solvers + selector</td><td>±0, 4 × slower</td></tr>
+<tr><td>Skill scripts (search, test finder)</td><td>−1.7</td></tr>
+</table>
+<table>
+<tr><th style="width:72%">Change</th><th style="width:28%">Δ tasks</th></tr>
+<tr><td>Temperature 1.0</td><td>+0.3</td></tr>
+<tr><td>Frequency penalty 0.2</td><td>−3.0</td></tr>
+<tr><td>Thinking budget 2,048</td><td>−1.0</td></tr>
+<tr><td>Thinking budget 8,192 (on PS-check)</td><td>−3.0</td></tr>
+<tr><td>Reviewer agent (on PS-check)</td><td>−4.0</td></tr>
+<tr><td>Spec-coverage step (on PS-check)</td><td>−1.0</td></tr>
+</table>
+</div>
+<p class="mute" style="width:1300px">What helped acts on one failure mode: wasted and unverified runs. More samples, more thinking and new weights did not.</p>
+<div class="foot"><span>3 seeds each, paired against the matched baseline</span><span class="pg"></span></div>
+<aside>Putting it together. Many popular ideas tied or lost when tested properly: sampling with test-free selection, all three LoRA recipes, parallel solvers, sampling tweaks, larger or smaller thinking budgets, and a reviewer agent on top of our final configuration. What helped was agent design that reduces wasted and unverified runs. For a small agent, that is the main enemy.</aside>
+</section>
+
+<section id="conclusion" style="justify-content:space-between">
+<div class="hd">
+<p class="lab">Conclusion</p>
+<h2>Conclusions and limitations</h2>
+</div>
+<div class="row" style="align-items:flex-start">
+<div class="col" style="flex:0 0 960px">
+<ol style="font-size:34px">
+<li>From the Budget-Fit baseline to Patchsmith-check: +4.0 local tasks, 71% fewer wasted runs, 0.13 → 0.20 on Kaggle.</li>
+<li>Count measured cost, not nominal limits; spend it on budget per run, not on samples.</li>
+<li>Use several seeds, paired tests and a screen → confirm protocol.</li>
+<li>Derive agent changes from within-task contrasts of solved and failed traces.</li>
+</ol>
+</div>
+<div class="col">
+<div class="fact"><p class="lab">Limitations</p><p>One model family; four repositories, 89% fastapi and rich; holdouts over seeds and solvable tasks; H100 instead of L4; +0.8 on fresh seeds alone is not significant.</p></div>
+</div>
+</div>
+<div class="foot"><span>Thank you · github.com/HRDevelops/gemma4-compute-allocation</span><span class="pg"></span></div>
+<aside>To conclude: we improved the agent from 0.13 to 0.20 within the same budget. The lessons are to count real cost, spend it on a larger budget per run rather than on samples, measure with several seeds and fresh-seed confirmation, and derive changes from within-task comparisons of traces. Limitations: one model family, four repositories, and the last prompt gain is small on fresh seeds alone. Thank you, I am happy to take questions.</aside>
+</section>
+
+</body></html>

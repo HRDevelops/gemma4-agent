@@ -1,0 +1,20 @@
+<section id="problem" style="justify-content:space-between">
+<div class="hd">
+<p class="lab">Problem</p>
+<h2>Fix real GitHub issues with a small open model on fixed compute</h2>
+</div>
+<div class="row">
+<div class="col" style="flex:0 0 760px;gap:28px">
+<p>The agent reads an issue, explores the repository with shell and file tools, edits code and submits a patch. Hidden unit tests decide whether the issue is solved.</p>
+<p class="mute">Published SWE agents use frontier models, unlimited compute and tests to pick patches. Here there is none of that: only the agent's configuration can change.</p>
+</div>
+<div class="col" style="gap:0">
+<div style="display:flex;gap:32px;padding:20px 0;border-top:1px solid var(--rule)"><p class="lab" style="flex:0 0 210px">Model</p><p>Gemma 4 31B and E4B, 4-bit QAT</p></div>
+<div style="display:flex;gap:32px;padding:20px 0;border-top:1px solid var(--rule)"><p class="lab" style="flex:0 0 210px">Compute</p><p>4 × L4 GPUs, 12 h for about 120 hidden issues</p></div>
+<div style="display:flex;gap:32px;padding:20px 0;border-top:1px solid var(--rule)"><p class="lab" style="flex:0 0 210px">We control</p><p>Prompt, tools, sampling, limits, LoRA adapter</p></div>
+<div style="display:flex;gap:32px;padding:20px 0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)"><p class="lab" style="flex:0 0 210px">Score</p><p>Share of issues resolved; public split ≈ 58 tasks</p></div>
+</div>
+</div>
+<div class="foot"><span>Kaggle Gemma 4 Developer Agent competition</span><span class="pg"></span></div>
+<aside>The task: given a real GitHub issue and a repository snapshot, the agent explores and edits with tools, then submits a patch, and hidden tests decide. The competition fixes the model to Gemma 4, the hardware to four L4 GPUs, and the time to twelve hours for about 120 hidden issues. We can only change the configuration. That is a realistic small-model setting, very different from most published SWE-agent work.</aside>
+</section>

@@ -1,0 +1,16 @@
+<section id="rq2" style="justify-content:space-between">
+<div class="hd">
+<p class="lab">RQ2 · Test-time compute</p>
+<h2>A larger budget per run beats more short runs</h2>
+</div>
+<div class="row">
+<img src="/_blob/740a88f76fac43bfac59a37b54b825fa" alt="Tasks solved versus measured minutes per task: the short-run curve lies below medium and long budgets at every cost" style="width:822px;height:580px;object-fit:contain">
+<div class="col">
+<div class="fact"><p class="num o">+4.9</p><p>tasks: one medium run vs one short run, 95% CI [+1.6, +8.5].</p></div>
+<div class="fact"><p class="num ">2.6 ×</p><p>the cost of five short runs plus a selector, still not better than one long run (−1.1).</p></div>
+<div class="fact"><p class="num ">20% → 4%</p><p>invalid runs (no patch or a limit hit) from short to long budget. Invalid runs never solve.</p></div>
+</div>
+</div>
+<div class="foot"><span>2,950 runs, 4 budget regimes, cost = measured minutes</span><span class="pg"></span></div>
+<aside>Second: test-time compute. At equal measured cost, a larger budget per run matched or beat sampling several short runs at every cost level. One medium run beat one short run by almost five tasks. Five short runs plus selection cost 2.6 times as much as one long run and were not better. The mechanism is wasted runs: runs that end without a usable patch never solve, and a larger budget removes most of them at low cost, because most runs stop early anyway.</aside>
+</section>

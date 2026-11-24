@@ -1,0 +1,22 @@
+<section id="data" style="justify-content:space-between">
+<div class="hd">
+<p class="lab">Data and grader</p>
+<h2>118 sound tasks and a grader that matches Kaggle</h2>
+</div>
+<div class="row" style="align-items:flex-start">
+<div class="col" style="flex:0 0 640px">
+<div class="fact"><p class="num">129 → 118</p><p>public tasks kept: the gold patch passes and an empty patch fails. fastapi 60, rich 45, requests 12, httpx 1.</p></div>
+<div class="fact"><p class="num">15,000+</p><p>agent runs on 2 × H100 with Kaggle's own vLLM wheel; L4 time measured at 1.17 × H100.</p></div>
+</div>
+<div class="col">
+<p class="lab">Three silent scoring faults we fixed</p>
+<ol>
+<li><b>Package shadowing.</b> Bundled wheels hid the repository under test: 38 empty patches "passed".</li>
+<li><b>Version drift.</b> The newest of 56 starlette versions broke old snapshots; we pin the newest version released before the issue.</li>
+<li><b>Stale cache.</b> A fixed-name cache in /tmp let parallel jobs reuse the wrong environment.</li>
+</ol>
+</div>
+</div>
+<div class="foot"><span>Rootless Apptainer replacement for the Docker harness</span><span class="pg"></span></div>
+<aside>The competition released 129 public tasks. Applying the gold patch and an empty patch leaves 118 sound tasks. Getting the grader right was a project in itself: three faults in the public setup silently changed scores. For example, bundled wheels shadowed the repository, so 38 tasks passed with an empty patch. After the fixes our grader matches the official labels.</aside>
+</section>

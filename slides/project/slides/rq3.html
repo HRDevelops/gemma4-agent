@@ -1,0 +1,14 @@
+<section id="rq3" style="justify-content:space-between">
+<div class="hd">
+<p class="lab">RQ3 · Fine-tuning</p>
+<h2>All three LoRA recipes reduced accuracy</h2>
+</div>
+<div style="display:flex;justify-content:center"><img src="/_blob/e2a6b35bba42ff22fae2bf295bf3ad2e" alt="Tasks solved per seed on all tasks and held-out tasks: every LoRA adapter is below its base model" style="width:1400px;height:420px;object-fit:contain"></div>
+<div class="three">
+<div class="fact"><p class="lab">31B self-training · −2.7</p><p>Tied on its training tasks, −2.7 on held-out tasks [−5.7, −0.3].</p></div>
+<div class="fact"><p class="lab">31B ← Qwen teacher · −22.7</p><p>Learned to submit before editing: 1,410 of 1,550 submits empty.</p></div>
+<div class="fact"><p class="lab">E4B ← 31B · −8.7</p><p>Thinking loops to the 4,096-token cap; 88 of 118 runs timed out.</p></div>
+</div>
+<div class="foot"><span>126–169 episodes, 24 held-out tasks, rank 16, served with Kaggle's vLLM wheel</span><span class="pg"></span></div>
+<aside>Third: fine-tuning. I trained three LoRA adapters on solved trajectories. Self-training on the model's own runs learned nothing new: it tied on training tasks and lost on held-out tasks. Distilling from a stronger Qwen model collapsed the agent: it learned to call submit before editing, even though no training example did that. And distilling the 31B model into the small E4B model produced thinking loops that ran until the budget cut them off.</aside>
+</section>

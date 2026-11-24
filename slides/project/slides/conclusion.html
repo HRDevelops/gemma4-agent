@@ -1,0 +1,21 @@
+<section id="conclusion" style="justify-content:space-between">
+<div class="hd">
+<p class="lab">Conclusion</p>
+<h2>Conclusions and limitations</h2>
+</div>
+<div class="row" style="align-items:flex-start">
+<div class="col" style="flex:0 0 960px">
+<ol style="font-size:34px">
+<li>From the Budget-Fit baseline to Patchsmith-check: +4.0 local tasks, 71% fewer wasted runs, 0.13 → 0.20 on Kaggle.</li>
+<li>Count measured cost, not nominal limits; spend it on budget per run, not on samples.</li>
+<li>Use several seeds, paired tests and a screen → confirm protocol.</li>
+<li>Derive agent changes from within-task contrasts of solved and failed traces.</li>
+</ol>
+</div>
+<div class="col">
+<div class="fact"><p class="lab">Limitations</p><p>One model family; four repositories, 89% fastapi and rich; holdouts over seeds and solvable tasks; H100 instead of L4; +0.8 on fresh seeds alone is not significant.</p></div>
+</div>
+</div>
+<div class="foot"><span>Thank you · github.com/HRDevelops/gemma4-compute-allocation</span><span class="pg"></span></div>
+<aside>To conclude: we improved the agent from 0.13 to 0.20 within the same budget. The lessons are to count real cost, spend it on a larger budget per run rather than on samples, measure with several seeds and fresh-seed confirmation, and derive changes from within-task comparisons of traces. Limitations: one model family, four repositories, and the last prompt gain is small on fresh seeds alone. Thank you, I am happy to take questions.</aside>
+</section>
